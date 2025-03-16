@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * blog controller
+ * event controller
  */
 
 const { createCoreController } = require("@strapi/strapi").factories;
@@ -35,27 +35,23 @@ const sendToWebhook = async (data, type) => {
   }
 };
 
-module.exports = createCoreController("api::blog.blog", ({ strapi }) => ({
+module.exports = createCoreController("api::event.event", ({ strapi }) => ({
   async afterCreate(event) {
     const { result } = event;
 
     // Get the full populated entity
     const entity = await strapi.entityService.findOne(
-      "api::blog.blog",
+      "api::event.event",
       result.id,
       {
         populate: {
           image: true,
-          category: {
-            fields: ["name"],
-          },
-          Tags: true,
         },
       },
     );
 
     // Send to Astro webhook
-    await sendToWebhook(entity, "blog");
+    await sendToWebhook(entity, "event");
   },
 
   async afterUpdate(event) {
@@ -63,20 +59,16 @@ module.exports = createCoreController("api::blog.blog", ({ strapi }) => ({
 
     // Get the full populated entity
     const entity = await strapi.entityService.findOne(
-      "api::blog.blog",
+      "api::event.event",
       result.id,
       {
         populate: {
           image: true,
-          category: {
-            fields: ["name"],
-          },
-          Tags: true,
         },
       },
     );
 
     // Send to Astro webhook
-    await sendToWebhook(entity, "blog");
+    await sendToWebhook(entity, "event");
   },
 }));
