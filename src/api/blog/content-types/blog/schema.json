@@ -50,9 +50,8 @@
       "type": "uid",
       "targetField": "title"
     },
-    "Tags": {
-      "type": "json",
-      "required": false
+    "tags": {
+      "type": "text"
     }
   }
 }
